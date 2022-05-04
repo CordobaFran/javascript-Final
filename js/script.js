@@ -47,7 +47,6 @@ function getUser(){
     let userPass = document.getElementById("password").value;
     let userFiltered = cuentas.find((el)=> el.user == userID);
     let passFiltered = userFiltered.pass;
-    console.log(userPass)
 
     divCuenta.innerHTML = "";
         
@@ -68,7 +67,6 @@ function btnIngresar(){
     ingresarBtn.addEventListener("click", ()=>{
         divCuenta.classList.add("border");
         getUser();
-        console.log("hola");
     });
 }
 
