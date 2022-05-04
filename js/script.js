@@ -42,16 +42,34 @@ cuentas.push(new Cuenta("Eva Farfan" , 90000, 13409461, 1992));
 
 function getUser(){
 
-    let div1 = document.getElementById("div1")
+    let divCuenta = document.getElementById("div__cuenta")
     let userID = document.getElementById("user").value;
+    let userPass = document.getElementById("password").value;
     let userFiltered = cuentas.find((el)=> el.user == userID);
-    
-    if(userID == userFiltered.user){
+    let passFiltered = userFiltered.pass;
+    console.log(userPass)
+
+    divCuenta.innerHTML = "";
+        
+    if(userID == userFiltered.user && parseInt(userPass) === passFiltered){
         let parrafo = document.createElement("p");
         parrafo.innerHTML = `<h5>Bienvenido: ${userFiltered.titular}</h5>
                             <h5>Su saldo es: ${userFiltered.cantidad}</h5>`;
-        div1.appendChild(parrafo);
+        divCuenta.append(parrafo);
+    }else{
+        divCuenta.append("USUARIO INCORRECTO")
     }
 }
 
-getUser()
+function btnIngresar(){
+    let divCuenta = document.getElementById("div__cuenta")
+    let ingresarBtn = document.getElementById("ingresar");
+
+    ingresarBtn.addEventListener("click", ()=>{
+        divCuenta.classList.add("border");
+        getUser();
+        console.log("hola");
+    });
+}
+
+btnIngresar();
