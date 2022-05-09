@@ -1,12 +1,16 @@
 let cantidad;
 let activeUser;
 let exit;
+let userLocal;
+let userLogged;
+
 class Cuenta{
-    constructor(titular, cuenta, user, pass){
+    constructor(titular, cuenta, user, pass, ncuenta){
         this.titular = titular;
         this.cantidad = cuenta;
         this.user = user;
         this.pass = pass;
+        this.nCuenta = ncuenta;
     }
     mostrar(){
         alert(`Nombre de titular: ${this.titular}\nMonto en la cuenta: $${this.cantidad}`);
@@ -35,39 +39,53 @@ class Cuenta{
 }
 
 const cuentas =[]
-cuentas.push(new Cuenta("Franco Cordoba", 5000, 36784909, 1905));
+cuentas.push(new Cuenta("Franco Damian Cordoba", 5000, 36784909, 1905, "01-123456-10"));
 cuentas.push(new Cuenta("Ana Reyes", 20000, 94475963, 2056));
 cuentas.push(new Cuenta("Gilberto Cordoba" , 60000, 14598212, 2012));
 cuentas.push(new Cuenta("Eva Farfan" , 90000, 13409461, 1992));
 
-function getUser(){
+function btnIngresar(){
+    let ingresarBtn = document.getElementById("ingresar");
 
-    let divCuenta = document.getElementById("div__cuenta")
+    ingresarBtn.addEventListener("click", ()=>{getUser()});
+}
+
+function getUser(){
     let userID = document.getElementById("user").value;
     let userPass = document.getElementById("password").value;
     let userFiltered = cuentas.find((el)=> el.user == userID);
     let passFiltered = userFiltered.pass;
-
-    divCuenta.innerHTML = "";
-        
+      
     if(userID == userFiltered.user && parseInt(userPass) === passFiltered){
-        let parrafo = document.createElement("p");
-        parrafo.innerHTML = `<h5>Bienvenido: ${userFiltered.titular}</h5>
-                            <h5>Su saldo es: ${userFiltered.cantidad}</h5>`;
-        divCuenta.append(parrafo);
+        userLocal = localStorage.setItem("usuario", userFiltered.user);
+        window.location.pathname = '../views/inicio.html';
     }else{
         divCuenta.append("USUARIO INCORRECTO")
     }
 }
 
-function btnIngresar(){
+function inicio(){
+    userLogged = localStorage.getItem("usuario")
+    let userFiltered = cuentas.find((el)=> el.user == userLogged);
     let divCuenta = document.getElementById("div__cuenta")
-    let ingresarBtn = document.getElementById("ingresar");
-
-    ingresarBtn.addEventListener("click", ()=>{
-        divCuenta.classList.add("border");
-        getUser();
-    });
+        console.log("hola")
+        divCuenta.innerHTML = "";
+    let parrafo = document.createElement("p");
+        parrafo.innerHTML = `<h4>${userFiltered.titular}</h4>
+                            <h4>Cuenta N° ${userFiltered.nCuenta}</h4>
+                            <h4>$${userFiltered.cantidad}</h4>`;
+        divCuenta.append(parrafo);
 }
 
-btnIngresar();
+let pages = document.body.id;
+switch (pages) {
+    case "index":
+        btnIngresar();
+        break;
+    case "inicio" :
+        inicio();
+        break;
+    default:
+        break;
+}
+
