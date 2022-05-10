@@ -1,9 +1,5 @@
 let cantidad;
-let activeUser;
-let exit;
 let userLocal;
-let userLogged;
-
 
 class Cuenta{
     constructor(titular, cuenta, user, pass, numCuenta, nombCuenta){
@@ -27,18 +23,21 @@ function currency(number){
 }
 
 function btnIngresar(){
+    //LISTENER DE BOTON INGRESAR EN LOGIN
     let ingresarBtn = document.getElementById("ingresar");
-
     ingresarBtn.addEventListener("click", ()=>{getUser()});
 }
 
 function getUser(){
+    //OBTENCION DATOS DE FORMULARIO
     let userID = document.getElementById("user").value;
     let userPass = document.getElementById("password").value;
 
-    let userFilteredJSON = JSON.stringify(cuentas.find((el)=> el.user == userID)) ;
-    let userFiltered = JSON.parse(userFilteredJSON) ;
-      
+    //FILTRADO DE USUARIOS SEGUN LO INGRESADO EN USERID
+    let userFilteredJSON = JSON.stringify(cuentas.find((el)=> el.user == userID));
+    let userFiltered = JSON.parse(userFilteredJSON);
+    
+    //VALIDACION DE USUARIO Y CONTRASEÑA
     if(userID == userFiltered.user && parseInt(userPass) === userFiltered.pass){
         localStorage.setItem("usuario", userFilteredJSON);
         window.location.pathname = '../views/inicio.html';
@@ -50,24 +49,30 @@ function getUser(){
 }
 
 function inicio(){
-    userLogged = localStorage.getItem("usuario")
+    //EXTRACCION DATOS USUARIO LOGUEADO
     let userFiltered = JSON.parse(localStorage.getItem("usuario"));
-    let divCuenta = document.getElementById("div__cuenta")
-        divCuenta.innerHTML = "";
+    
+    //COLOCACION DATOS DE USUARIO EN INICIO
+    let divDatos = document.getElementById("div__inicio__datos")
+        divDatos.innerHTML = "";
     let parrafo = document.createElement("p");
-        parrafo.innerHTML = `<h4>${userFiltered.titular}</h4>
+        parrafo.innerHTML = `<h4 class="font-weight-bolder h2">${userFiltered.titular}</h4>
                             <h4>Cuenta N° ${userFiltered.numCuenta}</h4>
                             <h4>${currency(userFiltered.cantidad)}</h4>`;
-        divCuenta.append(parrafo);
+        divDatos.append(parrafo);
 }
 
 function cuenta(){
-    userLogged = localStorage.getItem("usuario")
+    //EXTRACCION DATOS USUARIO LOGUEADO
     let userFiltered = JSON.parse(localStorage.getItem("usuario"));
+
+    //TITULAR DE LA PAGINA
     let cuentaH1 = document.getElementById("cuentaH1")
-    let cuentaBox = document.getElementById("cuentaBox")
         cuentaH1.innerHTML = "";
-    let h1 = cuentaH1.innerHTML = `CUENTAS DE ${(userFiltered.titular).toUpperCase()}`; 
+        cuentaH1.innerHTML = `CUENTAS DE ${(userFiltered.titular).toUpperCase()}`; 
+
+    //DATOS DE CUENTA
+    let cuentaBox = document.getElementById("cuentaBox")
         cuentaBox.innerHTML = "";
     let box = document.createElement("p");
     box.innerHTML = `<h4 class="box__text text-center pt-3 mt-5 mb-5 h2">${userFiltered.nombCuenta}</h4>
@@ -78,6 +83,8 @@ function cuenta(){
 
 function closeSesion(){
     let cerrarSesion = document.getElementById("cerrarSesion");
+
+    //BORRADO DE STORAGE POR CIERRE DE SESION Y REDIRECCIONADO A LOGIN
     cerrarSesion.addEventListener("click", (e)=>{
         e.preventDefault();
         window.location.pathname = '../index.html';
@@ -85,6 +92,7 @@ function closeSesion(){
     });
 }
 
+//SELECCION DE FUNCION POR CADA PAG CON ID DE BODY
 let pages = document.body.id;
 switch (pages) {
     case "index":
