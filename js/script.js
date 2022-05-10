@@ -14,30 +14,6 @@ class Cuenta{
         this.numCuenta = numCuenta;
         this.nombCuenta = nombCuenta;
     }
-    mostrar(){
-        alert(`Nombre de titular: ${this.titular}\nMonto en la cuenta: $${this.cantidad}`);
-        inicio();
-    }
-    ingresar(cantidad){  
-        if (cantidad > 0){
-            this.cantidad += cantidad;
-            alert(`Ud. ha ingresado ${cantidad} a su cuenta`);
-            inicio();
-        } else {
-            alert("Ingrese un monto válido");
-            ingresar();
-        }
-    }
-    retirar(cantidad){
-        if(cantidad <= this.cantidad){
-            this.cantidad = this.cantidad - cantidad;
-            alert(`Ud. ha retirado ${cantidad}`);
-            inicio();
-        }else {
-            alert("Ud no tiene fondos suficientes\nIntente con otro monto.");
-            retirar();
-        }
-    }
 }
 
 const cuentas =[]
@@ -59,14 +35,15 @@ function btnIngresar(){
 function getUser(){
     let userID = document.getElementById("user").value;
     let userPass = document.getElementById("password").value;
-    let incorrect = document.getElementById("userPassIncorrect")
-    let userFiltered = cuentas.find((el)=> el.user == userID);
-    let passFiltered = userFiltered.pass;
+
+    let userFilteredJSON = JSON.stringify(cuentas.find((el)=> el.user == userID)) ;
+    let userFiltered = JSON.parse(userFilteredJSON) ;
       
-    if(userID == userFiltered.user && parseInt(userPass) === passFiltered){
-        userLocal = localStorage.setItem("usuario", userFiltered.user);
+    if(userID == userFiltered.user && parseInt(userPass) === userFiltered.pass){
+        localStorage.setItem("usuario", userFilteredJSON);
         window.location.pathname = '../views/inicio.html';
     }else{
+        let incorrect = document.getElementById("userPassIncorrect")
         incorrect.innerHTML = ""
         incorrect.append("USUARIO O CONTRASEÑA INCORRECTA")
     }
@@ -74,9 +51,8 @@ function getUser(){
 
 function inicio(){
     userLogged = localStorage.getItem("usuario")
-    let userFiltered = cuentas.find((el)=> el.user == userLogged);
+    let userFiltered = JSON.parse(localStorage.getItem("usuario"));
     let divCuenta = document.getElementById("div__cuenta")
-        console.log("hola")
         divCuenta.innerHTML = "";
     let parrafo = document.createElement("p");
         parrafo.innerHTML = `<h4>${userFiltered.titular}</h4>
@@ -87,7 +63,7 @@ function inicio(){
 
 function cuenta(){
     userLogged = localStorage.getItem("usuario")
-    let userFiltered = cuentas.find((el)=> el.user == userLogged);
+    let userFiltered = JSON.parse(localStorage.getItem("usuario"));
     let cuentaH1 = document.getElementById("cuentaH1")
     let cuentaBox = document.getElementById("cuentaBox")
         cuentaH1.innerHTML = "";
