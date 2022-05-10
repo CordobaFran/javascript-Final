@@ -1,4 +1,26 @@
-*{
-    font-family: 'Frijole', cursive;
-font-family: 'Roboto', sans-serif;
-}
+* {
+  font-family: 'Frijole', cursive;
+  font-family: 'Roboto', sans-serif; }
+
+#userPassIncorrect {
+  color: #FF0000; }
+
+nav {
+  background-image: linear-gradient(0deg, #3e618c, #273d57); }
+
+li a {
+  color: #fff; }
+
+.isDisabled {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none; }
+
+.cuenta__box {
+  height: 400px;
+  width: 550px;
+  border-radius: 20px;
+  background-color: #40514E;
+  box-shadow: 5px 7px 7px #0000007a;
+  color: #fff; }

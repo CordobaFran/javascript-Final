@@ -1,0 +1,14 @@
+nav{
+    background-image: map-get($colors, navbarColor);
+}
+
+li a{
+    color: map-get($colors, navbarText);
+}
+
+.isDisabled {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+}
