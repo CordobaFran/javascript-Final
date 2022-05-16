@@ -101,17 +101,27 @@ function closeSesion(){
         localStorage.getItem("usuario") === null && localStorage.setItem("logged", false);
     });
 }
-
 function Bodyclean(){
     if (localStorage.getItem("logged") === "false"){
     let body = document.getElementById("inicio");
-        body.innerHTML = "";
-        body.innerHTML =`<h5 class="text-center">Ud. ha cerrado la Sesión.<br>Vuelva a ingresar</h5>
-        <button class="d-flex mx-auto"><a href="../index.html">Volver</a></button>`;
+        body.innerHTML ="";
+        Swal.fire({
+            title: `Ud. ha cerrado la sesión.
+                    Vuelva a ingresar`,
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'Volver',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                window.location.pathname = '../index.html';
+            }
+          })
         return true;}
     else{
-    return false;} 
+    return false;}
 }
+
 
 //SELECCION DE FUNCION POR CADA PAG CON ID DE BODY
 let pages = document.body.id;
