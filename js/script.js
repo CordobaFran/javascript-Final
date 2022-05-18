@@ -12,12 +12,12 @@ class Cuenta{
         this.nombCuenta = nombCuenta;
     }
 }
-
 const cuentas =[]
 cuentas.push(new Cuenta("Franco Damian Cordoba", 5000, 36784909, 1905, "01-123456-10", "Caja de Ahorro"));
 cuentas.push(new Cuenta("Ana Reyes", 20000, 94475963, 2056, "01-753213-10", "Caja de Ahorro"));
 cuentas.push(new Cuenta("Gilberto Cordoba" , 60000, 14598212, 2012, "01-123453-10", "Caja de Ahorro"));
 cuentas.push(new Cuenta("Eva Farfan" , 90000, 13409461, 1992, "01-437834-10", "Caja de Ahorro"));
+
 
 function currency(number){
     return new Intl.NumberFormat('eu-ES', { style: 'currency', currency: 'ARS' }).format(number);
@@ -101,9 +101,9 @@ function closeSesion(){
         localStorage.getItem("usuario") === null && localStorage.setItem("logged", false);
     });
 }
-function Bodyclean(){
+function Bodyclean(bodyId){
     if (localStorage.getItem("logged") === "false"){
-    let body = document.getElementById("inicio");
+    let body = document.getElementById(bodyId);
         body.innerHTML ="";
         Swal.fire({
             title: `Ud. ha cerrado la sesión.
@@ -111,15 +111,16 @@ function Bodyclean(){
             showDenyButton: false,
             showCancelButton: false,
             confirmButtonText: 'Volver',
-          }).then((result) => {
+        }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 window.location.pathname = '../index.html';
             }
-          })
-        return true;}
-    else{
-    return false;}
+        })
+        return true;
+    }else{
+        return false;
+    }
 }
 
 
@@ -130,14 +131,14 @@ switch (pages) {
         btnIngresar();
         break;
     case "inicio" :
-        Bodyclean();
+        Bodyclean("inicio");
         Bodyclean() === false && inicio();
         Bodyclean() === false && closeSesion();        
         break;
     case "cuenta" :
-        cuenta();
-        closeSesion();
-        Bodyclean();
+        Bodyclean("cuenta");
+        Bodyclean() === false && cuenta();
+        Bodyclean() === false && closeSesion();  
         break;    
     default:
         break;
