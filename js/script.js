@@ -1,6 +1,5 @@
 let cantidad;
 let userLocal;
-<<<<<<< HEAD
 let logged;
 const cuentas =[];
 class Cuenta{
@@ -17,35 +16,14 @@ const getCuentas = async ()=>{
         cuentas.push(new Cuenta(cuenta));
     }
 }
-=======
-
-class Cuenta{
-    constructor(titular, cuenta, user, pass, numCuenta, nombCuenta){
-        this.titular = titular;
-        this.cantidad = cuenta;
-        this.user = user;
-        this.pass = pass;
-        this.numCuenta = numCuenta;
-        this.nombCuenta = nombCuenta;
-    }
-}
-
-const cuentas =[]
-cuentas.push(new Cuenta("Franco Damian Cordoba", 5000, 36784909, 1905, "01-123456-10", "Caja de Ahorro"));
-cuentas.push(new Cuenta("Ana Reyes", 20000, 94475963, 2056, "01-753213-10", "Caja de Ahorro"));
-cuentas.push(new Cuenta("Gilberto Cordoba" , 60000, 14598212, 2012, "01-123453-10", "Caja de Ahorro"));
-cuentas.push(new Cuenta("Eva Farfan" , 90000, 13409461, 1992, "01-437834-10", "Caja de Ahorro"));
->>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
 
 function currency(number){
     return new Intl.NumberFormat('eu-ES', { style: 'currency', currency: 'ARS' }).format(number);
 }
 
 function btnIngresar(){
-<<<<<<< HEAD
     //EJECUCION DE FETCH DE CUENTAS
     getCuentas()
-    
     //LISTENER DE BOTON INGRESAR EN LOGIN
     let ingresarBtn = document.getElementById("ingresar");
     ingresarBtn.addEventListener("click", ()=>{checkUserAndPass()});
@@ -81,31 +59,6 @@ function checkUserAndPass(){
     logged = (localStorage.getItem("usuario") === null) ? true : false;
     console.warn(logged)
     logged ? localStorage.setItem("logged", false) : localStorage.setItem("logged", true);
-=======
-    //LISTENER DE BOTON INGRESAR EN LOGIN
-    let ingresarBtn = document.getElementById("ingresar");
-    ingresarBtn.addEventListener("click", ()=>{getUser()});
-}
-
-function getUser(){
-    //OBTENCION DATOS DE FORMULARIO
-    let userID = document.getElementById("user").value;
-    let userPass = document.getElementById("password").value;
-
-    //FILTRADO DE USUARIOS SEGUN LO INGRESADO EN USERID
-    let userFilteredJSON = JSON.stringify(cuentas.find((el)=> el.user == userID));
-    let userFiltered = JSON.parse(userFilteredJSON);
-    
-    //VALIDACION DE USUARIO Y CONTRASEÑA
-    if(userID == userFiltered.user && parseInt(userPass) === userFiltered.pass){
-        localStorage.setItem("usuario", userFilteredJSON);
-        window.location.pathname = '../views/inicio.html';
-    }else{
-        let incorrect = document.getElementById("userPassIncorrect")
-        incorrect.innerHTML = ""
-        incorrect.append("USUARIO O CONTRASEÑA INCORRECTA")
-    }
->>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
 }
 
 function inicio(){
@@ -113,21 +66,14 @@ function inicio(){
     let userFiltered = JSON.parse(localStorage.getItem("usuario"));
     
     //COLOCACION DATOS DE USUARIO EN INICIO
-<<<<<<< HEAD
     let divDatos = document.getElementById("divInicioDatos")
-=======
-    let divDatos = document.getElementById("div__inicio__datos")
->>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
         divDatos.innerHTML = "";
     let parrafo = document.createElement("p");
         parrafo.innerHTML = `<h4 class="font-weight-bolder h2">${userFiltered.titular}</h4>
                             <h4>Cuenta N° ${userFiltered.numCuenta}</h4>
                             <h4>${currency(userFiltered.cantidad)}</h4>`;
         divDatos.append(parrafo);
-<<<<<<< HEAD
         
-=======
->>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
 }
 
 function cuenta(){
@@ -157,7 +103,6 @@ function closeSesion(){
         e.preventDefault();
         window.location.pathname = '../index.html';
         localStorage.clear();
-<<<<<<< HEAD
         localStorage.getItem("usuario") === null && localStorage.setItem("logged", false);
     });
 }
@@ -183,10 +128,6 @@ function Bodyclean(bodyId){
     }
 }
 
-=======
-    });
-}
->>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
 
 //SELECCION DE FUNCION POR CADA PAG CON ID DE BODY
 let pages = document.body.id;
@@ -195,7 +136,6 @@ switch (pages) {
         btnIngresar();
         break;
     case "inicio" :
-<<<<<<< HEAD
         Bodyclean("inicio");
         Bodyclean() === false && inicio();
         Bodyclean() === false && closeSesion();        
@@ -204,14 +144,6 @@ switch (pages) {
         Bodyclean("cuenta");
         Bodyclean() === false && cuenta();
         Bodyclean() === false && closeSesion();  
-=======
-        inicio();
-        closeSesion()
-        break;
-    case "cuenta" :
-        cuenta();
-        closeSesion()
->>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
         break;    
     default:
         break;
