@@ -5,6 +5,7 @@
 #userPassIncorrect {
   color: #FF0000; }
 
+<<<<<<< HEAD
 #user, #password {
   border: 0px;
   border-bottom: 1px solid #11999E; }
@@ -14,6 +15,8 @@
   border: 0px !important;
   border-bottom: 2px solid !important; }
 
+=======
+>>>>>>> e76f0e4bea88ec59f09920e53c8d092d39bc5745
 nav {
   background-image: linear-gradient(0deg, #3e618c, #273d57); }
 
