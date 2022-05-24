@@ -1,3 +1,15 @@
+
 #userPassIncorrect{
     color: #FF0000;
+}
+
+#user, #password{
+    border: 0px;
+    border-bottom: 1px solid map-get($colors, principal03);
+}
+
+.userPassIncorrect{
+    color: #FF0000;
+    border: 0px !important;
+    border-bottom: 2px solid map-get($colors, #FF0000) !important;
 }

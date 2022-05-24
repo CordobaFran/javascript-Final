@@ -5,6 +5,15 @@
 #userPassIncorrect {
   color: #FF0000; }
 
+#user, #password {
+  border: 0px;
+  border-bottom: 1px solid #11999E; }
+
+.userPassIncorrect {
+  color: #FF0000;
+  border: 0px !important;
+  border-bottom: 2px solid !important; }
+
 nav {
   background-image: linear-gradient(0deg, #3e618c, #273d57); }
 

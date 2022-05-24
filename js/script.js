@@ -1,23 +1,22 @@
 let cantidad;
 let userLocal;
 let logged;
-
 class Cuenta{
-    constructor(titular, cuenta, user, pass, numCuenta, nombCuenta){
-        this.titular = titular;
-        this.cantidad = cuenta;
-        this.user = user;
-        this.pass = pass;
-        this.numCuenta = numCuenta;
-        this.nombCuenta = nombCuenta;
+    constructor(obj){
+        Object.assign(this, obj)
     }
 }
-const cuentas =[]
-cuentas.push(new Cuenta("Franco Damian Cordoba", 5000, 36784909, 1905, "01-123456-10", "Caja de Ahorro"));
-cuentas.push(new Cuenta("Ana Reyes", 20000, 94475963, 2056, "01-753213-10", "Caja de Ahorro"));
-cuentas.push(new Cuenta("Gilberto Cordoba" , 60000, 14598212, 2012, "01-123453-10", "Caja de Ahorro"));
-cuentas.push(new Cuenta("Eva Farfan" , 90000, 13409461, 1992, "01-437834-10", "Caja de Ahorro"));
 
+const cuentas =[];
+
+const getCuentas = async ()=>{
+    const resp = await fetch("cuentas.json")
+    const data = await resp.json()    
+
+    for (const cuenta of data){
+        cuentas.push(new Cuenta(cuenta));
+    }
+}
 
 function currency(number){
     return new Intl.NumberFormat('eu-ES', { style: 'currency', currency: 'ARS' }).format(number);
@@ -31,24 +30,28 @@ function btnIngresar(){
 
 function checkUserAndPass(){
     //OBTENCION DATOS DE FORMULARIO
-    let userID = document.getElementById("user").value;
-    let userPass = document.getElementById("password").value;
+    let userID = document.getElementById("user");
+    let userPass = document.getElementById("password");
 
     //FILTRADO DE USUARIOS SEGUN LO INGRESADO EN USERID
-    let userFilteredJSON = JSON.stringify(cuentas.find((el)=> el.user == userID));
+    let userFilteredJSON = JSON.stringify(cuentas.find((el)=> el.user == userID.value));
     let userFiltered = JSON.parse(userFilteredJSON);
     
     //VALIDACION DE USUARIO Y CONTRASEÑA
-    if(userID == userFiltered.user && parseInt(userPass) === userFiltered.pass){
+    if(userID.value == userFiltered.user && parseInt(userPass.value) === userFiltered.pass){
         localStorage.setItem("usuario", userFilteredJSON);
         setTimeout(() => {
             window.location.pathname = '../views/inicio.html';  
         }, 0);
         
     }else{
-        let incorrect = document.getElementById("userPassIncorrect")
-        incorrect.innerHTML = ""
-        incorrect.append("USUARIO O CONTRASEÑA INCORRECTA")
+        let incorrect = document.getElementById("userPassIncorrect");
+        incorrect.innerHTML = "";
+        incorrect.append("USUARIO O CONTRASEÑA INCORRECTA");
+        userID.classList.add("userPassIncorrect");
+        userPass.classList.add("userPassIncorrect");
+        userID.value = "";
+        userPass.value = "";
     }
     //
     logged = localStorage.setItem("logged", false);
@@ -62,13 +65,14 @@ function inicio(){
     let userFiltered = JSON.parse(localStorage.getItem("usuario"));
     
     //COLOCACION DATOS DE USUARIO EN INICIO
-    let divDatos = document.getElementById("div__inicio__datos")
+    let divDatos = document.getElementById("divInicioDatos")
         divDatos.innerHTML = "";
     let parrafo = document.createElement("p");
         parrafo.innerHTML = `<h4 class="font-weight-bolder h2">${userFiltered.titular}</h4>
                             <h4>Cuenta N° ${userFiltered.numCuenta}</h4>
                             <h4>${currency(userFiltered.cantidad)}</h4>`;
         divDatos.append(parrafo);
+        
 }
 
 function cuenta(){

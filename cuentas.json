@@ -1,0 +1,29 @@
+[{
+    "titular" : "Franco Córdoba",
+    "cantidad" : 5000,
+    "user" : 36784909,
+    "pass" : 1905,
+    "numCuenta" : "01-123456-10",
+    "nombCuenta" : "Caja de Ahorro"
+},{
+    "titular" : "Ana Reyes",
+    "cantidad" : 20000,
+    "user" : 94475963,
+    "pass" : 2056,
+    "numCuenta" : "01-753213-10",
+    "nombCuenta" : "Caja de Ahorro"
+},{
+    "titular" : "Gilberto Cordoba",
+    "cantidad" : 60000,
+    "user" :  14598212,
+    "pass" : 2012,
+    "numCuenta" : "01-123453-10",
+    "nombCuenta" : "Caja de Ahorro"
+},{
+    "titular" : "Eva Farfan",
+    "cantidad" : 90000,
+    "user" :  13409461,
+    "pass" : 1992,
+    "numCuenta" : "01-437834-10",
+    "nombCuenta" : "Caja de Ahorro"
+}]
