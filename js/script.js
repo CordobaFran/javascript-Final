@@ -1,13 +1,12 @@
 let cantidad;
 let userLocal;
 let logged;
+const cuentas =[];
 class Cuenta{
     constructor(obj){
         Object.assign(this, obj)
     }
 }
-
-const cuentas =[];
 
 const getCuentas = async ()=>{
     const resp = await fetch("cuentas.json")
@@ -23,6 +22,9 @@ function currency(number){
 }
 
 function btnIngresar(){
+    //EJECUCION DE FETCH DE CUENTAS
+    getCuentas()
+    
     //LISTENER DE BOTON INGRESAR EN LOGIN
     let ingresarBtn = document.getElementById("ingresar");
     ingresarBtn.addEventListener("click", ()=>{checkUserAndPass()});
