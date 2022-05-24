@@ -42,7 +42,7 @@ function checkUserAndPass(){
     if(userID.value == userFiltered.user && parseInt(userPass.value) === userFiltered.pass){
         localStorage.setItem("usuario", userFilteredJSON);
         setTimeout(() => {
-            window.location.pathname = '../views/inicio.html';  
+            window.location.pathname = './views/inicio.html';  
         }, 0);
         
     }else{
@@ -72,8 +72,7 @@ function inicio(){
         parrafo.innerHTML = `<h4 class="font-weight-bolder h2">${userFiltered.titular}</h4>
                             <h4>Cuenta N° ${userFiltered.numCuenta}</h4>
                             <h4>${currency(userFiltered.cantidad)}</h4>`;
-        divDatos.append(parrafo);
-        
+        divDatos.append(parrafo);     
 }
 
 function cuenta(){
