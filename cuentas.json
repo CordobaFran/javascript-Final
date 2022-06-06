@@ -5,12 +5,19 @@
     "pass" : 1905,
     "numCuenta" : "01-123456-10",
     "nombCuenta" : "Caja de Ahorro",
+<<<<<<< HEAD
     "movimientos" :{
         "numCuenta" : "01-123456-10",
         "nombCuenta" : "Caja de Ahorro",
         "monto" : 2000,
         "detalle" : "transferencia",
         "fecha" : "2560"
+=======
+    "movimientos" : {
+        "monto" : [2000, 300, 7000, 8000],
+        "detalle" : ["transferencia", "pago de servicios", "transferencia", "interés a favor"],
+        "fecha" : ["2560", "2560", "2560", "2560"]
+>>>>>>> b7fd224c8ac93cdf4abfec5f7499b25eed1e2471
     }
 },{
     "titular" : "Ana Reyes",

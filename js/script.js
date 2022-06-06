@@ -63,7 +63,15 @@ function checkUserAndPass(){
     logged ? localStorage.setItem("logged", false) : localStorage.setItem("logged", true);
 }
 
-function inicio(){
+function putMovimientosInicio(){
+    let movimientos = document.getElementById("movimientos")
+    movimientos.innerHTML = "";
+    let table = document.createElement("tr")
+        table.innerHTML = `<td>asd</td> <td>sasd</td>`
+        movimientos.append(table)
+}
+
+function inicioLink(){
     //COLOCACION DATOS DE USUARIO EN INICIO
     let divDatos = document.getElementById("divInicioDatos")
         divDatos.innerHTML = "";
@@ -74,7 +82,7 @@ function inicio(){
         divDatos.append(parrafo);
 }
 
-function cuenta(){
+function cuentaLink(){
     //TITULAR DE LA PAGINA
     let cuentaH1 = document.getElementById("cuentaH1")
         cuentaH1.innerHTML = "";
@@ -90,7 +98,7 @@ function cuenta(){
     cuentaBox.append(box);
 }
 
-function closeSesion(){
+function closeSesionLink(){
     let cerrarSesion = document.getElementById("cerrarSesion");
 
     //BORRADO DE STORAGE POR CIERRE DE SESION Y REDIRECCIONADO A LOGIN
@@ -101,6 +109,7 @@ function closeSesion(){
         localStorage.getItem("usuario") === null && localStorage.setItem("logged", false);
     });
 }
+
 function Bodyclean(bodyId){
     if (localStorage.getItem("logged") === "false"){
     let body = document.getElementById(bodyId);
@@ -132,13 +141,13 @@ switch (pages) {
         break;
     case "inicio" :
         Bodyclean("inicio");
-        Bodyclean() === false && inicio();
-        Bodyclean() === false && closeSesion();        
+        Bodyclean() === false && inicioLink();
+        Bodyclean() === false && closeSesionLink();        
         break;
     case "cuenta" :
         Bodyclean("cuenta");
-        Bodyclean() === false && cuenta();
-        Bodyclean() === false && closeSesion();  
+        Bodyclean() === false && cuentaLink();
+        Bodyclean() === false && closeSesionLink();  
         break;    
     default:
         break;
