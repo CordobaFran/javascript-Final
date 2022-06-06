@@ -1,7 +1,9 @@
 let cantidad;
 let userLocal;
 let logged;
+let userFiltered = JSON.parse(localStorage.getItem("usuario"));
 const cuentas =[];
+
 class Cuenta{
     constructor(obj){
         Object.assign(this, obj)
@@ -62,9 +64,6 @@ function checkUserAndPass(){
 }
 
 function inicio(){
-    //EXTRACCION DATOS USUARIO LOGUEADO
-    let userFiltered = JSON.parse(localStorage.getItem("usuario"));
-    
     //COLOCACION DATOS DE USUARIO EN INICIO
     let divDatos = document.getElementById("divInicioDatos")
         divDatos.innerHTML = "";
@@ -76,9 +75,6 @@ function inicio(){
 }
 
 function cuenta(){
-    //EXTRACCION DATOS USUARIO LOGUEADO
-    let userFiltered = JSON.parse(localStorage.getItem("usuario"));
-
     //TITULAR DE LA PAGINA
     let cuentaH1 = document.getElementById("cuentaH1")
         cuentaH1.innerHTML = "";
@@ -101,7 +97,7 @@ function closeSesion(){
     cerrarSesion.addEventListener("click", (e)=>{
         e.preventDefault();
         window.location.pathname = '../index.html';
-        localStorage.clear();
+        localStorage.clear("logged");
         localStorage.getItem("usuario") === null && localStorage.setItem("logged", false);
     });
 }
