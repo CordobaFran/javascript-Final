@@ -4,7 +4,12 @@
     "user" : 36784909,
     "pass" : 1905,
     "numCuenta" : "01-123456-10",
-    "nombCuenta" : "Caja de Ahorro"
+    "nombCuenta" : "Caja de Ahorro",
+    "movimientos" : {
+        "monto" : [2000, 300, 7000, 8000],
+        "detalle" : ["transferencia", "pago de servicios", "transferencia", "interés a favor"],
+        "fecha" : ["2560", "2560", "2560", "2560"]
+    }
 },{
     "titular" : "Ana Reyes",
     "cantidad" : 20000,
