@@ -64,15 +64,36 @@ function checkUserAndPass(){
 }
 
 function putMovimientosInicio(){
+    let movimientosDatos = JSON.parse(localStorage.usuario)
+    let movimientoDatosMonto = movimientosDatos.movimientos.monto;
+    let movimientoDatosDetalle = movimientosDatos.movimientos.detalle;
+    let movimientoDatosFecha = movimientosDatos.movimientos.fecha;
+
+    const DateTime = luxon.DateTime;
+    const dt = DateTime.local();
+    console.log(dt.day +"-"+ dt.month + "-"+ dt.year)
+
     let movimientos = document.getElementById("movimientos")
     movimientos.innerHTML = "";
     let table = document.createElement("tr")
-        table.innerHTML = `<td>asd</td> <td>sasd</td>`
+        table.innerHTML = ` <th class ="table__date">Fecha</th>
+                            <th class ="table__detail">Detalle</th>
+                            <th class ="table__mount">Monto</th>`
+        movimientos.append(table);
+    
+    for (let i = 0; i < movimientosDatos.movimientos.monto.length; i++) {
+            table = document.createElement("tr")
+            table.innerHTML = ` <td>${movimientoDatosFecha[i]}</td>
+                                <td class ="table__detail">${movimientoDatosDetalle[i].charAt(0).toUpperCase() + movimientoDatosDetalle[i].slice(1)}</td>
+                                <td>${currency(movimientoDatosMonto[i])}</td>`;
         movimientos.append(table)
+    }
 }
 
 function inicioLink(){
     //COLOCACION DATOS DE USUARIO EN INICIO
+putMovimientosInicio()
+
     let divDatos = document.getElementById("divInicioDatos")
         divDatos.innerHTML = "";
     let parrafo = document.createElement("p");

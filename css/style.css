@@ -26,6 +26,23 @@ li a {
   opacity: 0.5;
   text-decoration: none; }
 
+td, th {
+  border-bottom: solid 1px #11999E;
+  text-align: center; }
+
+tr {
+  height: 3rem; }
+
+.table__date {
+  width: 80px; }
+
+.table__detail {
+  text-align: start;
+  padding-left: 2rem; }
+
+.table__mount {
+  width: 150px; }
+
 .cuenta__box {
   height: 400px;
   width: 550px;

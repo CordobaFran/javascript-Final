@@ -1,0 +1,21 @@
+td, th{
+    border-bottom: solid 1px map-get($colors, principal03);
+    text-align: center;
+}
+
+tr{
+    height: 3rem;
+}
+
+.table__date{
+    width: 80px;
+}
+
+.table__detail{
+    text-align: start;
+    padding-left: 2rem;
+}
+
+.table__mount{
+    width: 150px;
+}
