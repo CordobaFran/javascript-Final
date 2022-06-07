@@ -23,6 +23,12 @@ function currency(number){
     return new Intl.NumberFormat('eu-ES', { style: 'currency', currency: 'ARS' }).format(number);
 }
 
+function dateTime(String){
+    const DateTime = luxon.DateTime;
+    const dt = DateTime.fromISO(String);
+    return dt.toLocaleString(DateTime.DATE_SHORT);
+}
+
 function btnIngresar(){
     //EJECUCION DE FETCH DE CUENTAS
     getCuentas()
@@ -69,10 +75,6 @@ function putMovimientosInicio(){
     let movimientoDatosDetalle = movimientosDatos.movimientos.detalle;
     let movimientoDatosFecha = movimientosDatos.movimientos.fecha;
 
-    const DateTime = luxon.DateTime;
-    const dt = DateTime.local();
-    console.log(dt.day +"-"+ dt.month + "-"+ dt.year)
-
     let movimientos = document.getElementById("movimientos")
     movimientos.innerHTML = "";
     let table = document.createElement("tr")
@@ -83,7 +85,7 @@ function putMovimientosInicio(){
     
     for (let i = 0; i < movimientosDatos.movimientos.monto.length; i++) {
             table = document.createElement("tr")
-            table.innerHTML = ` <td>${movimientoDatosFecha[i]}</td>
+            table.innerHTML = ` <td>${dateTime(movimientoDatosFecha[i])}</td>
                                 <td class ="table__detail">${movimientoDatosDetalle[i].charAt(0).toUpperCase() + movimientoDatosDetalle[i].slice(1)}</td>
                                 <td>${currency(movimientoDatosMonto[i])}</td>`;
         movimientos.append(table)

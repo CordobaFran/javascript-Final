@@ -8,7 +8,7 @@
     "movimientos" : {
         "monto" : [2000, 300, 7000, 8000],
         "detalle" : ["transferencia", "pago de servicios", "transferencia", "interés a favor"],
-        "fecha" : ["22-01-2022", "2560", "2560", "2560"]
+        "fecha" : ["2022-05-22", "2022-05-24", "2022-05-27", "2022-06-01"]
     }
 },{
     "titular" : "Ana Reyes",
