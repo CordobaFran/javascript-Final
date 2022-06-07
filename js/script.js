@@ -121,6 +121,13 @@ function cuentaLink(){
     cuentaBox.append(box);
 }
 
+function transferenciaLink(){
+    //TITULAR DE LA PAGINA
+    let transferenciaH1 = document.getElementById("transferenciaH1");
+        transferenciaH1.innerHTML = "";
+        transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
+}
+
 function closeSesionLink(){
     let cerrarSesion = document.getElementById("cerrarSesion");
 
@@ -171,7 +178,12 @@ switch (pages) {
         Bodyclean("cuenta");
         Bodyclean() === false && cuentaLink();
         Bodyclean() === false && closeSesionLink();  
-        break;    
+        break;
+    case "transferencias" :
+        Bodyclean("cuenta");
+        Bodyclean() === false && transferenciaLink();
+        Bodyclean() === false && closeSesionLink();  
+        break;       
     default:
         break;
 }
