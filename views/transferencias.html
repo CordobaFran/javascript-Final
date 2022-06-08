@@ -28,8 +28,16 @@
 				</div>
 			</div>
 			<div>
-				<h5 class="text-center mt-5">Transferencias</h3>
+				<h5 class="text-center my-5">Transferencias</h3>
 			</div>
+			<div class="dropdown pull-right push-bottom-10">
+                <button id="filtrarMotivo" class="btn btn-dropdown dropdown-toggle dropdown-border no-margin" type="button" data-toggle="dropdown">Todos los movimientos<span class="caret"></span></button>
+                <ul class="dropdown-menu" id="dropdown">
+                    <option class="dropdown-item" value="transfDet">Todos los movimientos</option>
+                    <option class="dropdown-item" value="egresoTransf">Egresos de dinero</option>
+                    <option class="dropdown-item" value="ingresoTransf">Ingresos de dinero</option>
+                </ul>
+            </div>
 			<div>
 				<table class="w-100 overflow-auto" id="bankTransfer">
 				</table>

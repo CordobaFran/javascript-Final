@@ -62,7 +62,7 @@ function checkUserAndPass(){
         userID.value = "";
         userPass.value = "";
     }
-    //
+    
     logged = localStorage.setItem("logged", false);
     logged = (localStorage.getItem("usuario") === null) ? true : false;
     console.warn(logged)
@@ -78,7 +78,7 @@ function putMovimientos(filter, id, elementId){
             if(a.fecha > b.fecha) {return -1;}
             return 0
         })
-    
+    //agregado de table y titulos
     id = document.getElementById(elementId);
     id.innerHTML = "";
     let table = document.createElement("tr");
@@ -86,7 +86,7 @@ function putMovimientos(filter, id, elementId){
                             <th class ="table__detail">Detalle</th>
                             <th class ="table__mount">Monto</th>`
         id.append(table);
-    
+    //opciones de filtrado
     switch (filter) {
         case "transfDet":
             filtered = movimientosDatos.movimientos.filter((el)=>el.detalle.includes(`transferencia`));
@@ -96,12 +96,18 @@ function putMovimientos(filter, id, elementId){
             break;
         case "egreso":
             filtered = movimientosDatos.movimientos.filter((el)=>el.monto < 0);
-            break;              
+            break; 
+        case "ingresoTransf":
+            filtered = movimientosDatos.movimientos.filter((el)=>el.monto > 0 && el.detalle.includes(`transferencia`));
+            break;
+        case "egresoTransf":
+            filtered = movimientosDatos.movimientos.filter((el)=>el.monto < 0 && el.detalle.includes(`transferencia`));
+            break;                      
         default:
             filtered = movimientosDatos.movimientos;
             break;
     } 
-
+    //Agregado de movimientos al html
     filtered.forEach((mov) => {
         table = document.createElement("tr");
             table.innerHTML = ` <td>${dateTime(mov.fecha)}</td>
@@ -111,12 +117,11 @@ function putMovimientos(filter, id, elementId){
     });    
 }
 
-function filter(){
+function filterTransactionsBySelected(id, elementId){
     document.querySelectorAll(".dropdown-item").forEach( function(el) {
-       
         el.addEventListener("click", function(e) {
             document.querySelector(".dropdown-toggle").innerText = el.textContent;
-            putMovimientos(e.target.value, movimientos, "movimientos" );
+            putMovimientos(e.target.value, id, elementId );
         });
     });  
 }
@@ -201,7 +206,7 @@ switch (pages) {
         break;
     case "inicio" :
         Bodyclean("inicio");
-        filter();
+        filterTransactionsBySelected("", "movimientos", "movimientos");
         Bodyclean() === false && inicioLink();
         Bodyclean() === false && closeSesionLink();        
         break;
@@ -212,6 +217,7 @@ switch (pages) {
         break;
     case "transferencias" :
         Bodyclean("transferencias");
+        filterTransactionsBySelected("transfDet", "bankTransfer", "bankTransfer");
         Bodyclean() === false && transferenciaLink();
         Bodyclean() === false && closeSesionLink();  
         break;       
