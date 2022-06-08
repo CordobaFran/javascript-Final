@@ -50,7 +50,7 @@ function checkUserAndPass(){
     if(userID.value == userFiltered.user && parseInt(userPass.value) === userFiltered.pass){
         localStorage.setItem("usuario", userFilteredJSON);
         setTimeout(() => {
-            window.location.pathname = '../../views/inicio.html';  
+            window.location = 'views/inicio.html';  
         }, 0);
         
     }else{
