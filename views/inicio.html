@@ -21,11 +21,11 @@
 				<h5 class="text-center my-5">Ultimos Movimientos</h3>
 			</div>
 			<div class="dropdown pull-right push-bottom-10">
-                <button id="filtrarMotivo" class="btn btn-dropdown dropdown-toggle dropdown-border no-margin" type="button" data-toggle="dropdown" data-hj-masked="">Todos los movimientos<span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="javascript:filtroMovimientos('Todos');" data-hj-masked="">Todos los movimientos</a></li>
-                    <li><a href="javascript:filtroMovimientos('Egresos');" data-hj-masked="">Egresos de dinero</a></li>
-                    <li><a href="javascript:filtroMovimientos('Ingresos');" data-hj-masked="">Ingresos de dinero</a></li>
+                <button id="filtrarMotivo" class="btn btn-dropdown dropdown-toggle dropdown-border no-margin" type="button" data-toggle="dropdown">Todos los movimientos<span class="caret"></span></button>
+                <ul class="dropdown-menu" id="dropdown">
+                    <option class="dropdown-item" value="todos">Todos los movimientos</option>
+                    <option class="dropdown-item" value="egreso">Egresos de dinero</option>
+                    <option class="dropdown-item" value="ingreso">Ingresos de dinero</option>
                 </ul>
             </div>
 			<div class="">

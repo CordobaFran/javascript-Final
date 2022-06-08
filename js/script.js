@@ -69,7 +69,7 @@ function checkUserAndPass(){
     logged ? localStorage.setItem("logged", false) : localStorage.setItem("logged", true);
 }
 
-function putMovimientos(id, elementId, filter){
+function putMovimientos(filter, id, elementId){
     let movimientosDatos = JSON.parse(localStorage.usuario);
     let filtered;
         //ordenamiento de listado completo por última fecha    
@@ -91,8 +91,15 @@ function putMovimientos(id, elementId, filter){
         case "transfDet":
             filtered = movimientosDatos.movimientos.filter((el)=>el.detalle.includes(`transferencia`));
             break;
+        case "ingreso":
+            filtered = movimientosDatos.movimientos.filter((el)=>el.monto > 0);
+            break;
+        case "egreso":
+            filtered = movimientosDatos.movimientos.filter((el)=>el.monto < 0);
+            break;              
         default:
             filtered = movimientosDatos.movimientos;
+            break;
     } 
 
     filtered.forEach((mov) => {
@@ -104,11 +111,21 @@ function putMovimientos(id, elementId, filter){
     });    
 }
 
+function filter(){
+    document.querySelectorAll(".dropdown-item").forEach( function(el) {
+       
+        el.addEventListener("click", function(e) {
+            document.querySelector(".dropdown-toggle").innerText = el.textContent;
+            putMovimientos(e.target.value, movimientos, "movimientos" );
+        });
+    });  
+}
+
 function inicioLink(){
     //COLOCACION DATOS DE USUARIO EN INICIO
-    putMovimientos(movimientos, "movimientos")
+    putMovimientos("",movimientos, "movimientos");
 
-    let divDatos = document.getElementById("divInicioDatos")
+    let divDatos = document.getElementById("divInicioDatos");
         divDatos.innerHTML = "";
     let parrafo = document.createElement("p");
         parrafo.innerHTML = `<h4 class="font-weight-bolder h2">${userFiltered.titular}</h4>
@@ -134,7 +151,7 @@ function cuentaLink(){
 }
 
 function transferenciaLink(){
-    putMovimientos(bankTransfer, "bankTransfer", "transfDet");
+    putMovimientos("transfDet", bankTransfer, "bankTransfer");
 
     let transferenciaH1 = document.getElementById("transferenciaH1");
         transferenciaH1.innerHTML = "";
@@ -184,6 +201,7 @@ switch (pages) {
         break;
     case "inicio" :
         Bodyclean("inicio");
+        filter();
         Bodyclean() === false && inicioLink();
         Bodyclean() === false && closeSesionLink();        
         break;
