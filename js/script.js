@@ -69,32 +69,44 @@ function checkUserAndPass(){
     logged ? localStorage.setItem("logged", false) : localStorage.setItem("logged", true);
 }
 
-function putMovimientosInicio(){
-    let movimientosDatos = JSON.parse(localStorage.usuario)
-    let movimientoDatosMonto = movimientosDatos.movimientos.monto;
-    let movimientoDatosDetalle = movimientosDatos.movimientos.detalle;
-    let movimientoDatosFecha = movimientosDatos.movimientos.fecha;
-
-    let movimientos = document.getElementById("movimientos")
-    movimientos.innerHTML = "";
-    let table = document.createElement("tr")
+function putMovimientos(id, elementId, filter){
+    let movimientosDatos = JSON.parse(localStorage.usuario);
+    let filtered;
+        //ordenamiento de listado completo por última fecha    
+        movimientosDatos.movimientos.sort((a, b) => {
+            if(a.fecha < b.fecha) {return 1;}
+            if(a.fecha > b.fecha) {return -1;}
+            return 0
+        })
+    
+    id = document.getElementById(elementId);
+    id.innerHTML = "";
+    let table = document.createElement("tr");
         table.innerHTML = ` <th class ="table__date">Fecha</th>
                             <th class ="table__detail">Detalle</th>
                             <th class ="table__mount">Monto</th>`
-        movimientos.append(table);
+        id.append(table);
     
-    for (let i = 0; i < movimientosDatos.movimientos.monto.length; i++) {
-            table = document.createElement("tr")
-            table.innerHTML = ` <td>${dateTime(movimientoDatosFecha[i])}</td>
-                                <td class ="table__detail">${movimientoDatosDetalle[i].charAt(0).toUpperCase() + movimientoDatosDetalle[i].slice(1)}</td>
-                                <td>${currency(movimientoDatosMonto[i])}</td>`;
-        movimientos.append(table)
-    }
+    switch (filter) {
+        case "transfDet":
+            filtered = movimientosDatos.movimientos.filter((el)=>el.detalle.includes(`transferencia`));
+            break;
+        default:
+            filtered = movimientosDatos.movimientos;
+    } 
+
+    filtered.forEach((mov) => {
+        table = document.createElement("tr");
+            table.innerHTML = ` <td>${dateTime(mov.fecha)}</td>
+                                <td class ="table__detail">${mov.detalle.charAt(0).toUpperCase() + mov.detalle.slice(1)}</td>
+                                <td>${currency(mov.monto)}</td>`;
+        id.append(table);
+    });    
 }
 
 function inicioLink(){
     //COLOCACION DATOS DE USUARIO EN INICIO
-putMovimientosInicio()
+    putMovimientos(movimientos, "movimientos")
 
     let divDatos = document.getElementById("divInicioDatos")
         divDatos.innerHTML = "";
@@ -122,7 +134,8 @@ function cuentaLink(){
 }
 
 function transferenciaLink(){
-    //TITULAR DE LA PAGINA
+    putMovimientos(bankTransfer, "bankTransfer", "transfDet");
+
     let transferenciaH1 = document.getElementById("transferenciaH1");
         transferenciaH1.innerHTML = "";
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
@@ -180,7 +193,7 @@ switch (pages) {
         Bodyclean() === false && closeSesionLink();  
         break;
     case "transferencias" :
-        Bodyclean("cuenta");
+        Bodyclean("transferencias");
         Bodyclean() === false && transferenciaLink();
         Bodyclean() === false && closeSesionLink();  
         break;       

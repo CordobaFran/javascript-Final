@@ -13,15 +13,23 @@
 </head>
 <body id="inicio" class="container-fluid m-0 p-0">   
 	<div class="row m-0 mh-100">
-		<div class="col-10 overflow-auto hola vh-100">
+		<div class="col-10 overflow-auto vh-100">
 			<h1 class="p-5 h2">INICIO</h1>
 			<div class="mt-0 p-3 text-center" id="divInicioDatos">
 			</div>
 			<div>
 				<h5 class="text-center my-5">Ultimos Movimientos</h3>
 			</div>
-			<div class="h-50">
-				<table class="w-100 overflow-auto" id="movimientos">
+			<div class="dropdown pull-right push-bottom-10">
+                <button id="filtrarMotivo" class="btn btn-dropdown dropdown-toggle dropdown-border no-margin" type="button" data-toggle="dropdown" data-hj-masked="">Todos los movimientos<span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:filtroMovimientos('Todos');" data-hj-masked="">Todos los movimientos</a></li>
+                    <li><a href="javascript:filtroMovimientos('Egresos');" data-hj-masked="">Egresos de dinero</a></li>
+                    <li><a href="javascript:filtroMovimientos('Ingresos');" data-hj-masked="">Ingresos de dinero</a></li>
+                </ul>
+            </div>
+			<div class="">
+				<table class="w-100" id="movimientos">
 				</table>
 			</div>
 		</div>

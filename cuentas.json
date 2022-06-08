@@ -5,11 +5,14 @@
     "pass" : 1905,
     "numCuenta" : "01-123456-10",
     "nombCuenta" : "Caja de Ahorro",
-    "movimientos" : {
-        "monto" : [2000, 300, 7000, 8000, 2000, 300, 7000, 8000],
-        "detalle" : ["transferencia", "pago de servicios", "transferencia", "interés a favor", "transferencia", "pago de servicios", "transferencia", "interés a favor"],
-        "fecha" : ["2022-05-22", "2022-05-24", "2022-05-27", "2022-06-01", "2022-05-22", "2022-05-24", "2022-05-27", "2022-06-01"]
-    }
+    "movimientos" : [
+        {"monto" : 2000, "detalle" : "transferencia", "fecha" : "2022-05-22"},
+        {"monto" : 300, "detalle" : "pago de servicios", "fecha" : "2022-05-27"},
+        {"monto" : 7000, "detalle" : "transferencia", "fecha" : "2022-06-01"},
+        {"monto" : 8000, "detalle" : "interés a favor", "fecha" : "2022-05-22"},
+        {"monto" : -2000, "detalle" : "pago de servicios", "fecha" : "2022-05-24"},
+        {"monto" : -5000, "detalle" : "transferencia", "fecha" : "2022-05-27"}
+    ]
 },{
     "titular" : "Ana Reyes",
     "cantidad" : 20000,

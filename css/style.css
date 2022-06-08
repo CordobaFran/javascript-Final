@@ -50,3 +50,11 @@ tr {
   background-color: #40514E;
   box-shadow: 5px 7px 7px #0000007a;
   color: #fff; }
+
+.transfer__box {
+  height: 100px;
+  width: 300px;
+  border-radius: 20px;
+  background-color: #40514E;
+  box-shadow: 5px 7px 7px #0000007a;
+  color: #fff; }
