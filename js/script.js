@@ -134,7 +134,7 @@ function closeSesionLink(){
     //BORRADO DE STORAGE POR CIERRE DE SESION Y REDIRECCIONADO A LOGIN
     cerrarSesion.addEventListener("click", (e)=>{
         e.preventDefault();
-        window.location.pathname = '../index.html';
+        window.location = '../index.html';
         localStorage.clear("logged");
         localStorage.getItem("usuario") === null && localStorage.setItem("logged", false);
     });
@@ -153,7 +153,7 @@ function Bodyclean(bodyId){
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                window.location.pathname = '../index.html';
+                window.location = '../index.html';
             }
         })
         return true;
