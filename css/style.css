@@ -62,3 +62,9 @@ tr {
 
 .transfer__box:hover {
   box-shadow: inset 0px 0px 18px 6px #353531; }
+
+.classLenght--red {
+  color: red; }
+
+.classLenght {
+  color: black; }
