@@ -163,6 +163,61 @@ function transferenciaLink(){
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
 }
 
+function transferenciaCbuCvuAliasLink(){
+    let transferenciaH1 = document.getElementById("transferenciaH1");
+        transferenciaH1.innerHTML = "";
+        transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
+    
+    let cbu = document.getElementById("cbuForm");
+    cbu.addEventListener("input", ()=>{return cbu.value})
+    let alias = document.getElementById("aliasForm");
+    alias.addEventListener("input", ()=>{return alias.value});
+    let monto = document.getElementById("montoForm");
+    monto.addEventListener("input", ()=>{return monto.value})
+    let transferButton = document.getElementById("transferButton");
+    transferButton.addEventListener("click", (e)=>{e.preventDefault()
+    transferConfirmation()})
+}
+
+function transferConfirmation(){
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      
+      swalWithBootstrapButtons.fire({
+        title: 'Quieres transferir al CBU/CVU',
+        text: "N° ",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Transferir',
+        cancelButtonText: 'No, Volver',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          swalWithBootstrapButtons.fire(
+            'Transferencia Exitosa',
+            'La transferencia se completó exitosamente',
+            'success'
+          )
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire({
+            title: 'Operación cancelada',
+            text: 'La operacion ha sido cancelada',
+            icon: 'error',
+            confirmButtonText: 'Volver',
+        })
+        }
+      })
+}
+
+
 function closeSesionLink(){
     let cerrarSesion = document.getElementById("cerrarSesion");
 
@@ -220,7 +275,12 @@ switch (pages) {
         filterTransactionsBySelected("transfDet", "bankTransfer", "bankTransfer");
         Bodyclean() === false && transferenciaLink();
         Bodyclean() === false && closeSesionLink();  
-        break;       
+        break;
+    case "CbuCvuAlias" :
+        Bodyclean("CbuCvuAlias");
+        Bodyclean() === false && transferenciaCbuCvuAliasLink();
+        Bodyclean() === false && closeSesionLink();
+        break;           
     default:
         break;
 }
