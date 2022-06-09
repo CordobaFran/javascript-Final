@@ -161,25 +161,52 @@ function transferenciaLink(){
     let transferenciaH1 = document.getElementById("transferenciaH1");
         transferenciaH1.innerHTML = "";
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
+
+    let cbuCvuAliasBox = document.getElementById("cbuAlias");
+        cbuCvuAliasBox.addEventListener("click", ()=>{
+            window.location = "./transferencias-cbucvualias.html"
+        })    
 }
 
 function transferenciaCbuCvuAliasLink(){
     let transferenciaH1 = document.getElementById("transferenciaH1");
         transferenciaH1.innerHTML = "";
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
+
+        //agregado de cuenta y valor para seleccionar en dropdown menu
+        document.querySelector("#dropdown").innerHTML = `<option class="dropdown-item" value="transfDet">CA ${userFiltered.numCuenta} - ${currency(userFiltered.cantidad)}</option>`;
+        document.querySelectorAll(".dropdown-item").forEach( function(el) {
+            el.addEventListener("click", function(e) {
+                document.querySelector(".dropdown-toggle").innerText = el.textContent;
+            });
+        });
+
     
     let cbu = document.getElementById("cbuForm");
-    cbu.addEventListener("input", ()=>{return cbu.value})
+    let cbuNumber = cbu.addEventListener("input", ()=>{cbuNumber = cbu.value})
+    
     let alias = document.getElementById("aliasForm");
     alias.addEventListener("input", ()=>{return alias.value});
+
     let monto = document.getElementById("montoForm");
-    monto.addEventListener("input", ()=>{return monto.value})
+    let montoNumber = monto.addEventListener("input", ()=>{montoNumber = monto.value})
+
+    alias.addEventListener("input", ()=>{
+        document.querySelector("#cbuForm").value = ""
+    })
+
+    cbu.addEventListener("input", ()=>{
+        document.querySelector("#aliasForm").value = ""
+    })
+
     let transferButton = document.getElementById("transferButton");
-    transferButton.addEventListener("click", (e)=>{e.preventDefault()
-    transferConfirmation()})
+    transferButton.addEventListener("click", (e)=>{
+        e.preventDefault()
+        transferConfirmation(cbuNumber, montoNumber)
+    })
 }
 
-function transferConfirmation(){
+function transferConfirmation(cbu, valor){
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -189,8 +216,8 @@ function transferConfirmation(){
       })
       
       swalWithBootstrapButtons.fire({
-        title: 'Quieres transferir al CBU/CVU',
-        text: "N° ",
+        title: `Quieres transferir ${currency(valor)} al CBU/CVU`,
+        text: `N° ${cbu}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Transferir',
