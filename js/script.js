@@ -173,49 +173,70 @@ function transferenciaCbuCvuAliasLink(){
         transferenciaH1.innerHTML = "";
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
 
-        //agregado de cuenta y valor para seleccionar en dropdown menu
-        document.querySelector("#dropdown").innerHTML = `<option class="dropdown-item" value="transfDet">CA ${userFiltered.numCuenta} - ${currency(userFiltered.cantidad)}</option>`;
-        document.querySelectorAll(".dropdown-item").forEach( function(el) {
-            el.addEventListener("click", function(e) {
-                document.querySelector(".dropdown-toggle").innerText = el.textContent;
-            });
+    //agregado de cuenta y valor para seleccionar en dropdown menu
+    document.querySelector("#dropdown").innerHTML = `<option class="dropdown-item" value="1">CA ${userFiltered.numCuenta} - ${currency(userFiltered.cantidad)}</option>`;
+    document.querySelectorAll(".dropdown-item").forEach( function(el) {
+        el.addEventListener("click", function(e) {
+            document.querySelector(".dropdown-toggle").innerText = el.textContent;
+            document.querySelector(".dropdown-toggle").value = 1;
         });
+    });
 
-    
-    let cbu = document.getElementById("cbuForm");
-    let cbuNumber = cbu.addEventListener("input", ()=>{cbuNumber = cbu.value})
-    
+    //selector de Alias o Cbu
     let alias = document.getElementById("aliasForm");
-    alias.addEventListener("input", ()=>{return alias.value});
+        alias.addEventListener("input", ()=>{
+            document.querySelector("#cbuForm").value = ""
+        })
+    let cbu = document.getElementById("cbuForm");
+        cbu.addEventListener("input", ()=>{
+            document.querySelector("#aliasForm").value = ""
+        })
 
-    let monto = document.getElementById("montoForm");
-    let montoNumber = monto.addEventListener("input", ()=>{montoNumber = monto.value})
-
-    alias.addEventListener("input", ()=>{
-        document.querySelector("#cbuForm").value = ""
-    })
-
-    cbu.addEventListener("input", ()=>{
-        document.querySelector("#aliasForm").value = ""
-    })
-
+    //Queryselector de form
+    let hasDataAccount = document.querySelector(".dropdown-toggle");
+    let hasDataCbu= document.querySelector("#cbuForm");
+    let hasDataAlias= document.querySelector("#aliasForm");
+    let hasDataAmount = document.querySelector("#montoForm");
     let transferButton = document.getElementById("transferButton");
+    let cbuLength = document.querySelector("#cbuLength")
+    
+    //actualizacion cantidad de digitos cbu
+    hasDataCbu.addEventListener("keyup", ()=>{
+        cbuLength.innerText ="";
+        cbuLength.innerText = hasDataCbu.value.length;
+    })
+
+    hasDataCbu.addEventListener("keyup", ()=>{
+        if(hasDataCbu.value.length > 23){
+            cbuLength.classList.add("classLenght--red")
+        }else{
+            cbuLength.classList.remove("classLenght--red")
+        }
+    })
+
+    //validacion de datos colocados y envío 
     transferButton.addEventListener("click", (e)=>{
         e.preventDefault()
-        transferConfirmation(cbuNumber, montoNumber)
+        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && hasDataCbu.value.length <= 23 && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
+            transferConfirmation(hasDataCbu.value, hasDataAmount.value, undefined)
+        }else if(hasDataAmount.value > userFiltered.cantidad){
+            transferConfirmation(undefined, undefined, "insuficientFunds")
+        }else{
+            transferConfirmation("", "", "dataNoCompleted")
+        }   
     })
 }
 
-function transferConfirmation(cbu, valor){
+function transferConfirmation(cbu, valor, error){
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
         },
         buttonsStyling: false
-      })
-      
-      swalWithBootstrapButtons.fire({
+    })
+    
+    swalWithBootstrapButtons.fire({
         title: `Quieres transferir ${currency(valor)} al CBU/CVU`,
         text: `N° ${cbu}`,
         icon: 'warning',
@@ -223,25 +244,43 @@ function transferConfirmation(cbu, valor){
         confirmButtonText: 'Transferir',
         cancelButtonText: 'No, Volver',
         reverseButtons: true
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
-          swalWithBootstrapButtons.fire(
+        swalWithBootstrapButtons.fire(
             'Transferencia Exitosa',
             'La transferencia se completó exitosamente',
             'success'
-          )
+        )
         } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
         ) {
-          swalWithBootstrapButtons.fire({
+        swalWithBootstrapButtons.fire({
             title: 'Operación cancelada',
             text: 'La operacion ha sido cancelada',
             icon: 'error',
             confirmButtonText: 'Volver',
         })
         }
-      })
+    })
+
+    if (error == "dataNoCompleted"){
+        swalWithBootstrapButtons.fire({
+            title: 'Operación cancelada',
+            text: 'Ingrese todos los datos correctamente',
+            icon: 'error',
+            confirmButtonText: 'Volver'
+        });
+    }
+
+    if (error == "insuficientFunds"){
+        swalWithBootstrapButtons.fire({
+            title: 'Fondos Insuficientes',
+            text: 'Intente ingresando otro valor a transferir',
+            icon: 'error',
+            confirmButtonText: 'Volver'
+        });
+    }
 }
 
 
