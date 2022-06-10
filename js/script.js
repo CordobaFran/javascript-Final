@@ -229,12 +229,18 @@ function transferenciaCbuCvuAliasLink(transfered){
     //validacion de datos colocados y envío 
     transferButton.addEventListener("click", (e)=>{
         e.preventDefault()
-        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && hasDataCbu.value.length == 23 && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
-            transferConfirmation(hasDataCbu.value, hasDataAmount.value, undefined)
+        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
+            if(hasDataCbu.value.length == 23){
+                transferConfirmation(`N°${hasDataCbu.value}`, hasDataAmount.value, undefined, "CBU/CVU")
+            }else if (hasDataAlias.value.length !=""){
+                transferConfirmation(hasDataAlias.value, hasDataAmount.value, undefined, "Alias")
+            }else{
+                transferConfirmation(undefined, undefined, "dataNoCompleted")
+            }
         }else if(hasDataAmount.value > userFiltered.cantidad){
             transferConfirmation(undefined, undefined, "insuficientFunds")
         }else{
-            transferConfirmation("", "", "dataNoCompleted")
+            transferConfirmation(undefined, undefined, "dataNoCompleted")
         }
     })
 
@@ -253,7 +259,7 @@ function transferTransactionToHistory(amount){
     userFiltered.movimientos.push(transferObject)
 }
 
-function transferConfirmation(cbu, valor, error){
+function transferConfirmation(cbu, valor, error, aliasOrCbu){
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
         confirmButton: 'btn btn-success',
@@ -263,8 +269,8 @@ function transferConfirmation(cbu, valor, error){
     })
     
     swalWithBootstrapButtons.fire({
-        title: `Quieres transferir ${currency(valor)} al CBU/CVU`,
-        text: `N° ${cbu}`,
+        title: `Quieres transferir ${currency(valor)} al ${aliasOrCbu}`,
+        text: `${cbu}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Transferir',
