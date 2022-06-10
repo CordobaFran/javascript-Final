@@ -1,6 +1,7 @@
 let cantidad;
 let userLocal;
 let logged;
+let dolaroficial;
 let userFiltered = JSON.parse(localStorage.getItem("usuario"));
 const DateTime = luxon.DateTime;
 const setTransferToStorage = (resp) => {
@@ -319,6 +320,44 @@ function transferConfirmation(cbu, valor, error, aliasOrCbu){
     }
 }
 
+function divisasPage(){
+    function RequestDivisa(){
+        fetch('https://cors-solucion.herokuapp.com/https://api-dolar-argentina.herokuapp.com/api/dolaroficial')
+        .then((response) => response.json())
+        .then((data) => {
+        dolaroficial = data;
+        let {fecha, compra, venta} = dolaroficial;
+        
+        //puesta cotizacion compra en box
+        let divisaCompra = document.getElementById("divisaBoxCompra");
+        let compraContainer = document.createElement("p");
+            divisaCompra.innerHTML = "";
+            compraContainer.innerHTML = `<div class="font-weight-bolder h2">COMPRA</div>
+                                <div class="h4">$${compra}</div>`
+            divisaCompra.append(compraContainer);
+
+        //puesta cotizacion venta en box
+        let divisaVenta = document.getElementById("divisaBoxVenta");
+        let ventaContainer = document.createElement("p");
+            divisaVenta.innerHTML = "";
+            ventaContainer.innerHTML = "";
+            ventaContainer.innerHTML = `<div class="font-weight-bolder h2">VENTA</div>
+                                <div class="h4">$${venta}</div>`
+            divisaVenta.append(ventaContainer);
+
+        //puesta horario en html
+        let horario = fecha.toLocaleString(DateTime.DATE_SHORT);
+        document.querySelector("#tiempoDeCotizacion").innerText = horario;        
+        })
+    }
+    //inicio funcion del fetch
+    RequestDivisa();
+
+    //actualización cada 30 segundos
+    setInterval(() => {
+        RequestDivisa()
+    }, 30000);   
+}
 
 function closeSesionLink(){
     let cerrarSesion = document.getElementById("cerrarSesion");
@@ -382,7 +421,12 @@ switch (pages) {
         Bodyclean("CbuCvuAlias");
         Bodyclean() === false && transferenciaCbuCvuAliasLink();
         Bodyclean() === false && closeSesionLink();
-        break;           
+        break;
+    case "divisasBody" :
+        Bodyclean("divisasBody");
+        Bodyclean() === false && divisasPage();
+        Bodyclean() === false && closeSesionLink();
+        break;  
     default:
         break;
 }

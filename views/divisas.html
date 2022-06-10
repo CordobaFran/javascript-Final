@@ -11,34 +11,24 @@
 	<link href="https://fonts.googleapis.com/css2?family=Frijole&family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="../css/style.css">
 </head>
-<body id="CbuCvuAlias" class="container-fluid m-0 p-0">   
+<body id="divisasBody" class="container-fluid m-0 p-0">   
 	<div class="row m-0 mh-100">
 		<div class="col-10">
-			<h1 class="p-5 h4" id="transferenciaH1"></h1>
-            <h2 class="px-5 h4">Transfiriendo desde</h2>
-            <div class="dropdown pull-right push-bottom-10 px-5 my-3">
-                <button id="filtrarMotivo" class="btn btn-dropdown dropdown-toggle dropdown-border no-margin" type="button" data-toggle="dropdown">Seleccione Cuenta<span class="caret"></span></button>
-                <ul class="dropdown-menu" id="dropdown">
-                </ul>
-            </div>
-            <h3 class="px-5 h3 my-5">¿A quién le queres transferir?</h3>
-            <form>
-                <div class="form-group w-50">
-                    <label>CBU o CVU</label>
-                    <input type="text" class="form-control" id="cbuForm" placeholder="Ingrese CBU o CVU" autocomplete="off">
-					<span class="ml-2" id="cbuLength">0</span><span>/23</span>
-                </div>
-                <div class="form-group mb-5 w-50">
-                    <label>Alias</label>
-                    <input type="text" class="form-control" id="aliasForm" placeholder="Ingrese Alias" autocomplete="off">
-                </div>
-                <div class="form-group mb-5 w-50">
-                    <label class="h5">¿Cuánto deseas transferir?</label>
-                    <input type="text" class="form-control" id="montoForm" placeholder="Ingrese monto" data-type="currency" autocomplete="off">
-                </div>
-                <button type="submit" class="btn btn-primary mt-5" id="transferButton">Transferir a CBU/CVU</button>
-            </form>
-            
+			<h1 class="p-5 h4" id="cuentaH1">COMPRA - VENTA DE DIVISAS</h1>
+			<div class="d-flex justify-content-around mx-5 flex-wrap">
+				<div class="d-flex pt-5 mt-2 mx-3">
+					<div class="d-flex divisa__box text-center align-items-center justify-content-center" id="divisaBoxCompra"></div>
+				</div>
+				<div class="d-flex pt-5 mt-2 mx-3">
+					<div class="d-flex divisa__box text-center align-items-center justify-content-center" id="divisaBoxVenta"></div>
+				</div>
+			</div>
+			<div class="text-center py-5">
+				<h5>Última cotización:</h5>
+				<p id="tiempoDeCotizacion"></p>
+				<span>Los datos son actualizados cada 30 segundos</span>
+			</div>
+			<h2 class="mt-5 h4 text-center text-danger">La compra/venta de divisa esta restringida para éste usuario</h2>
 		</div>
 		<div class="col-2 px-0">
 			<nav class="border-left vh-100">
@@ -46,8 +36,8 @@
 				<ul class="list-unstyled text-center mt-5">
 					<li class="py-3"><a href="inicio.html" class="">Inicio</a></li>
 					<li class="py-3"><a href="cuenta.html" class="">Cuenta</a></li>
-					<li class="py-3"><a href="divisas.html" class="">Divisas</a></li>
-					<li class="py-3"><a href="transferencias.html" class="font-weight-bolder">Transferencias</a></li>
+					<li class="py-3"><a href="divisas.html" class="font-weight-bolder">Divisas</a></li>
+					<li class="py-3"><a href="transferencias.html" class="" >Transferencias</a></li>
 					<li class="py-3"><a href="#" class="isDisabled">Configuración</a></li>
 					<li class="py-3"><a href="#" class="isDisabled">Prestamos</a></li>
 					<li class="py-5"><a href="" class="" id="cerrarSesion">Cerrar Sesión</a></li>
@@ -57,8 +47,8 @@
 	</div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdn.jsdelivr.net/npm/luxon@2.4.0/build/global/luxon.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="../js/script.js"></script>
 </body>
 </html>
