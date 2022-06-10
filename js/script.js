@@ -2,6 +2,14 @@ let cantidad;
 let userLocal;
 let logged;
 let userFiltered = JSON.parse(localStorage.getItem("usuario"));
+const DateTime = luxon.DateTime;
+const setTransferToStorage = (resp) => {
+    return new Promise((resolve, reject)=>{
+        resp ? resolve("resuelta") : reject("transferencia no realizada");
+    })
+};
+
+
 const cuentas =[];
 
 class Cuenta{
@@ -24,7 +32,6 @@ function currency(number){
 }
 
 function dateTime(String){
-    const DateTime = luxon.DateTime;
     const dt = DateTime.fromISO(String);
     return dt.toLocaleString(DateTime.DATE_SHORT);
 }
@@ -168,7 +175,7 @@ function transferenciaLink(){
         })    
 }
 
-function transferenciaCbuCvuAliasLink(){
+function transferenciaCbuCvuAliasLink(transfered){
     let transferenciaH1 = document.getElementById("transferenciaH1");
         transferenciaH1.innerHTML = "";
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
@@ -228,8 +235,22 @@ function transferenciaCbuCvuAliasLink(){
             transferConfirmation(undefined, undefined, "insuficientFunds")
         }else{
             transferConfirmation("", "", "dataNoCompleted")
-        }   
+        }
     })
+
+    setTransferToStorage(transfered).then(()=>{
+        userFiltered.cantidad -= hasDataAmount.value;
+        transferTransactionToHistory(hasDataAmount.value);
+        let userFilteredJSON = JSON.stringify(userFiltered);
+        localStorage.setItem("usuario", userFilteredJSON);
+        window.location = "transferencias.html";
+    }).catch(error =>  console.log(error))
+}
+
+function transferTransactionToHistory(amount){
+    const today = DateTime.now().toISODate();
+    let transferObject = {"monto" : -(amount), "detalle" : "transferencia", "fecha" : today}
+    userFiltered.movimientos.push(transferObject)
 }
 
 function transferConfirmation(cbu, valor, error){
@@ -254,12 +275,16 @@ function transferConfirmation(cbu, valor, error){
         swalWithBootstrapButtons.fire(
             'Transferencia Exitosa',
             'La transferencia se completó exitosamente',
-            'success'
-        )
+            'success'    
+        ).then((result) => {
+            if (result.isConfirmed){
+                return transferenciaCbuCvuAliasLink(true);
+            }
+        })  
         } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
-        ) {
+        ){
         swalWithBootstrapButtons.fire({
             title: 'Operación cancelada',
             text: 'La operacion ha sido cancelada',
