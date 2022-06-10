@@ -2,6 +2,14 @@ let cantidad;
 let userLocal;
 let logged;
 let userFiltered = JSON.parse(localStorage.getItem("usuario"));
+const DateTime = luxon.DateTime;
+const setTransferToStorage = (resp) => {
+    return new Promise((resolve, reject)=>{
+        resp ? resolve("resuelta") : reject("transferencia no realizada");
+    })
+};
+
+
 const cuentas =[];
 
 class Cuenta{
@@ -24,7 +32,6 @@ function currency(number){
 }
 
 function dateTime(String){
-    const DateTime = luxon.DateTime;
     const dt = DateTime.fromISO(String);
     return dt.toLocaleString(DateTime.DATE_SHORT);
 }
@@ -168,7 +175,7 @@ function transferenciaLink(){
         })    
 }
 
-function transferenciaCbuCvuAliasLink(){
+function transferenciaCbuCvuAliasLink(transfered){
     let transferenciaH1 = document.getElementById("transferenciaH1");
         transferenciaH1.innerHTML = "";
         transferenciaH1.innerHTML = `TRANSFERENCIAS DE ${(userFiltered.titular).toUpperCase()}`;
@@ -198,7 +205,8 @@ function transferenciaCbuCvuAliasLink(){
     let hasDataAlias= document.querySelector("#aliasForm");
     let hasDataAmount = document.querySelector("#montoForm");
     let transferButton = document.getElementById("transferButton");
-    let cbuLength = document.querySelector("#cbuLength")
+    let cbuLength = document.querySelector("#cbuLength");
+    let span = document.querySelectorAll("span");
     
     //actualizacion cantidad de digitos cbu
     hasDataCbu.addEventListener("keyup", ()=>{
@@ -208,23 +216,41 @@ function transferenciaCbuCvuAliasLink(){
 
     hasDataCbu.addEventListener("keyup", ()=>{
         if(hasDataCbu.value.length > 23){
-            cbuLength.classList.add("classLenght--red")
+            span.forEach((el) => {
+                el.classList.add("classLenght--red", "font-weight-bold")
+            });         
         }else{
-            cbuLength.classList.remove("classLenght--red")
+            span.forEach((el) => {
+                el.classList.remove("classLenght--red", "font-weight-bold")
+            });
         }
     })
 
     //validacion de datos colocados y envío 
     transferButton.addEventListener("click", (e)=>{
         e.preventDefault()
-        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && hasDataCbu.value.length <= 23 && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
+        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && hasDataCbu.value.length == 23 && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
             transferConfirmation(hasDataCbu.value, hasDataAmount.value, undefined)
         }else if(hasDataAmount.value > userFiltered.cantidad){
             transferConfirmation(undefined, undefined, "insuficientFunds")
         }else{
             transferConfirmation("", "", "dataNoCompleted")
-        }   
+        }
     })
+
+    setTransferToStorage(transfered).then(()=>{
+        userFiltered.cantidad -= hasDataAmount.value;
+        transferTransactionToHistory(hasDataAmount.value);
+        let userFilteredJSON = JSON.stringify(userFiltered);
+        localStorage.setItem("usuario", userFilteredJSON);
+        window.location = "transferencias.html";
+    }).catch(error =>  console.log(error))
+}
+
+function transferTransactionToHistory(amount){
+    const today = DateTime.now().toISODate();
+    let transferObject = {"monto" : -(amount), "detalle" : "transferencia", "fecha" : today}
+    userFiltered.movimientos.push(transferObject)
 }
 
 function transferConfirmation(cbu, valor, error){
@@ -249,12 +275,16 @@ function transferConfirmation(cbu, valor, error){
         swalWithBootstrapButtons.fire(
             'Transferencia Exitosa',
             'La transferencia se completó exitosamente',
-            'success'
-        )
+            'success'    
+        ).then((result) => {
+            if (result.isConfirmed){
+                return transferenciaCbuCvuAliasLink(true);
+            }
+        })  
         } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel
-        ) {
+        ){
         swalWithBootstrapButtons.fire({
             title: 'Operación cancelada',
             text: 'La operacion ha sido cancelada',
