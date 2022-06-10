@@ -198,7 +198,8 @@ function transferenciaCbuCvuAliasLink(){
     let hasDataAlias= document.querySelector("#aliasForm");
     let hasDataAmount = document.querySelector("#montoForm");
     let transferButton = document.getElementById("transferButton");
-    let cbuLength = document.querySelector("#cbuLength")
+    let cbuLength = document.querySelector("#cbuLength");
+    let span = document.querySelectorAll("span");
     
     //actualizacion cantidad de digitos cbu
     hasDataCbu.addEventListener("keyup", ()=>{
@@ -208,16 +209,20 @@ function transferenciaCbuCvuAliasLink(){
 
     hasDataCbu.addEventListener("keyup", ()=>{
         if(hasDataCbu.value.length > 23){
-            cbuLength.classList.add("classLenght--red")
+            span.forEach((el) => {
+                el.classList.add("classLenght--red", "font-weight-bold")
+            });         
         }else{
-            cbuLength.classList.remove("classLenght--red")
+            span.forEach((el) => {
+                el.classList.remove("classLenght--red", "font-weight-bold")
+            });
         }
     })
 
     //validacion de datos colocados y envío 
     transferButton.addEventListener("click", (e)=>{
         e.preventDefault()
-        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && hasDataCbu.value.length <= 23 && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
+        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && hasDataCbu.value.length == 23 && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
             transferConfirmation(hasDataCbu.value, hasDataAmount.value, undefined)
         }else if(hasDataAmount.value > userFiltered.cantidad){
             transferConfirmation(undefined, undefined, "insuficientFunds")
