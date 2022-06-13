@@ -2,6 +2,9 @@
   font-family: 'Frijole', cursive;
   font-family: 'Roboto', sans-serif; }
 
+li.selected {
+  border-right: solid 4px white; }
+
 #userPassIncorrect {
   color: #FF0000; }
 

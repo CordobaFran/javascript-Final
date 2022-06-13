@@ -1,5 +1,3 @@
-let cantidad;
-let userLocal;
 let logged;
 let dolaroficial;
 let userFiltered = JSON.parse(localStorage.getItem("usuario"));
@@ -10,9 +8,7 @@ const setTransferToStorage = (resp) => {
     })
 };
 
-
 const cuentas =[];
-
 class Cuenta{
     constructor(obj){
         Object.assign(this, obj)
@@ -55,7 +51,7 @@ function checkUserAndPass(){
     let userFiltered = JSON.parse(userFilteredJSON);
     
     //VALIDACION DE USUARIO Y CONTRASEÑA
-    if(userID.value == userFiltered.user && parseInt(userPass.value) === userFiltered.pass){
+    if(userID.value == userFiltered.user && parseInt(userPass.value) == userFiltered.pass){
         localStorage.setItem("usuario", userFilteredJSON);
         setTimeout(() => {
             window.location = 'views/inicio.html';  
@@ -230,8 +226,8 @@ function transferenciaCbuCvuAliasLink(transfered){
     //validacion de datos colocados y envío 
     transferButton.addEventListener("click", (e)=>{
         e.preventDefault()
-        if(hasDataAccount.value !="" && (hasDataCbu.value || hasDataAlias.value)!= "" && (hasDataAmount.value > 0 && hasDataAmount.value < userFiltered.cantidad)){
-            if(hasDataCbu.value.length == 23){
+        if(hasDataAccount.value !=="" && (hasDataCbu.value || hasDataAlias.value)!== "" && (hasDataAmount.value > 0 && hasDataAmount.value <= userFiltered.cantidad)){
+            if(hasDataCbu.value.length === 23){
                 transferConfirmation(`N°${hasDataCbu.value}`, hasDataAmount.value, undefined, "CBU/CVU")
             }else if (hasDataAlias.value.length !=""){
                 transferConfirmation(hasDataAlias.value, hasDataAmount.value, undefined, "Alias")
@@ -392,7 +388,6 @@ function Bodyclean(bodyId){
         return false;
     }
 }
-
 
 //SELECCION DE FUNCION POR CADA PAG CON ID DE BODY
 let pages = document.body.id;
